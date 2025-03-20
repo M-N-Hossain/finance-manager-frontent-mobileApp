@@ -1,16 +1,16 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Entity } from '../utils/types';
+import { Entry } from '../utils/types';
 
-interface EntityItemProps {
-  entity: Entity;
+interface EntryItemProps {
+  entry: Entry;
   // category?: Category;
   onEdit: () => void;
   onDelete: () => void;
 }
 
-const EntityItem: React.FC<EntityItemProps> = ({ entity, onEdit, onDelete }) => {
+const EntryItem: React.FC<EntryItemProps> = ({ entry, onEdit, onDelete }) => {
   // Format date
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -22,17 +22,17 @@ const EntityItem: React.FC<EntityItemProps> = ({ entity, onEdit, onDelete }) => 
     return `$${amount.toFixed(2)}`;
   };
 
-  // console.log(entity)
+  // console.log(entry)
   return (
     <View style={styles.container}>
       <View style={styles.infoContainer}>
-        <Text style={styles.amount}>{formatAmount(entity.amount)}</Text>
-        <Text style={styles.description}>{entity.title}</Text>
+        <Text style={styles.amount}>{formatAmount(entry.amount)}</Text>
+        <Text style={styles.description}>{entry.title}</Text>
         <View style={styles.detailsRow}>
-          {/* <Text style={styles.date}>{formatDate(entity.date)}</Text> */}
-          {entity.category && (
+          {/* <Text style={styles.date}>{formatDate(entry.date)}</Text> */}
+          {entry.category && (
             <View style={styles.categoryTag}>
-              <Text style={styles.categoryText}>{entity.category.title}</Text>
+              <Text style={styles.categoryText}>{entry.category.title}</Text>
             </View>
           )}
         </View>
@@ -108,4 +108,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EntityItem;
+export default EntryItem;

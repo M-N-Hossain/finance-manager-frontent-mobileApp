@@ -3,22 +3,22 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import EntryForm from '../../components/EntityForm';
-import { EntitiesStackParamList } from '../../navigation/MainNavigator';
-import { fetchEntries, updateEntity } from '../../store/entitiesSlice';
+import EntryForm from '../../components/EntryForm';
+import { EntriesStackParamList } from '../../navigation/MainNavigator';
+import { fetchEntries, updateEntry } from '../../store/entriesSlice';
 import { RootState } from '../../store/store';
-import { EntityCreate } from '../../utils/types';
+import { EntryCreate } from '../../utils/types';
 
-type EntityEditScreenNavigationProp = StackNavigationProp< EntitiesStackParamList, 'EntityEdit'>;
-type EntityEditScreenRouteProp = RouteProp< EntitiesStackParamList, 'EntityEdit'>;
+type EntryEditScreenNavigationProp = StackNavigationProp< EntriesStackParamList, 'EntryEdit'>;
+type EntryEditScreenRouteProp = RouteProp< EntriesStackParamList, 'EntryEdit'>;
 
 interface EntryEditScreenProps {
-  navigation: EntityEditScreenNavigationProp;
-  route: EntityEditScreenRouteProp;
+  navigation: EntryEditScreenNavigationProp;
+  route: EntryEditScreenRouteProp;
 }
 
 const EntryEditScreen: React.FC<EntryEditScreenProps> = ({ navigation, route }) => {
-  const { entityId } = route.params;
+  const { entryId } = route.params;
   const dispatch = useDispatch();
   const { entries, isLoading, error } = useSelector((state: RootState) => state.entries);
   const [entry, setEntry] = useState<any>(null);
@@ -29,15 +29,15 @@ const EntryEditScreen: React.FC<EntryEditScreenProps> = ({ navigation, route }) 
       dispatch(fetchEntries() as any);
     } else {
       // Find the entry from the Redux store
-      const foundEntry = entries.find(e => e.id === entityId);
+      const foundEntry = entries.find(e => e.id === entryId);
       if (foundEntry) {
         setEntry(foundEntry);
       }
     }
-  }, [entityId, entries, dispatch]);
+  }, [entryId, entries, dispatch]);
   
-  const handleSubmit = async (entityData: EntityCreate) => {
-    await dispatch(updateEntity({ id: entityId, entity: entityData }) as any);
+  const handleSubmit = async (entryData: EntryCreate) => {
+    await dispatch(updateEntry({ id: entryId, entry: entryData }) as any);
     navigation.goBack();
   };
   

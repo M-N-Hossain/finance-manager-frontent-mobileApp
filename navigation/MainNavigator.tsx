@@ -6,14 +6,14 @@ import React from 'react';
 import CategoriesScreen from '../screens/categories/CategoriesScreen';
 import CategoryCreateScreen from '../screens/categories/CategoryCreateScreen';
 import CategoryEditScreen from '../screens/categories/CategoryEditScreen';
-import EntriesScreen from '../screens/entities/EntitiesScreen';
-import EntryCreateScreen from '../screens/entities/EntityCreateScreen';
-import EntryEditScreen from '../screens/entities/EntityEditScreen';
+import EntriesScreen from '../screens/entries/EntitiesScreen';
+import EntryCreateScreen from '../screens/entries/EntityCreateScreen';
+import EntryEditScreen from '../screens/entries/EntityEditScreen';
 
-export type EntitiesStackParamList = {
-  Entities: undefined;
-  EntityCreate: undefined;
-  EntityEdit: { entityId: string };
+export type EntriesStackParamList = {
+  Entries: undefined;
+  EntryCreate: undefined;
+  EntryEdit: { entryId: string };
 };
 
 export type CategoriesStackParamList = {
@@ -23,15 +23,15 @@ export type CategoriesStackParamList = {
 };
 
 export type MainTabParamList = {
-  EntitiesTab: undefined;
+  EntriesTab: undefined;
   CategoriesTab: undefined;
 };
 
-const EntriesStack = createStackNavigator<EntitiesStackParamList>();
+const EntriesStack = createStackNavigator<EntriesStackParamList>();
 const CategoriesStack = createStackNavigator<CategoriesStackParamList>();
 const MainTab = createBottomTabNavigator<MainTabParamList>();
 
-const EntitiesNavigator = () => {
+const EntriesNavigator = () => {
   return (
     <EntriesStack.Navigator
       screenOptions={{
@@ -44,9 +44,9 @@ const EntitiesNavigator = () => {
         },
       }}
     >
-      <EntriesStack.Screen name="Entities" component={EntriesScreen} />
-      <EntriesStack.Screen name="EntityCreate" component={EntryCreateScreen} options={{ title: 'Add Entry' }} />
-      <EntriesStack.Screen name="EntityEdit" component={EntryEditScreen} options={{ title: 'Edit Entry' }} />
+      <EntriesStack.Screen name="Entries" component={EntriesScreen} />
+      <EntriesStack.Screen name="EntryCreate" component={EntryCreateScreen} options={{ title: 'Add Entry' }} />
+      <EntriesStack.Screen name="EntryEdit" component={EntryEditScreen} options={{ title: 'Edit Entry' }} />
     </EntriesStack.Navigator>
   );
 };
@@ -78,7 +78,7 @@ const MainNavigator = () => {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
           
-          if (route.name === 'EntitiesTab') {
+          if (route.name === 'EntriesTab') {
             iconName = focused ? 'list' : 'list-outline';
           } else if (route.name === 'CategoriesTab') {
             iconName = focused ? 'folder' : 'folder-outline';
@@ -92,8 +92,8 @@ const MainNavigator = () => {
       })}
     >
       <MainTab.Screen 
-        name="EntitiesTab" 
-        component={EntitiesNavigator} 
+        name="EntriesTab" 
+        component={EntriesNavigator} 
         options={{ title: 'Entries' }}
       />
       <MainTab.Screen 

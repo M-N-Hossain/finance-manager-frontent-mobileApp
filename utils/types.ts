@@ -40,8 +40,8 @@ export interface CategoryState {
   error: string | null;
 }
 
-// Entity types
-export interface Entity {
+// Entry types
+export interface Entry {
   id: string;
   amount: number;
   title: string;
@@ -49,15 +49,15 @@ export interface Entity {
   category: Category;
 }
 
-export interface EntityCreate {
+export interface EntryCreate {
   amount: number;
   title: string;
   // date: string;
   category: string;
 }
 
-export interface EntityState {
-  entities: Entity[];
+export interface EntryState {
+  entries: Entry[];
   isLoading: boolean;
   error: string | null;
 }

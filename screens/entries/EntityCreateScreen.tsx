@@ -2,13 +2,13 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import EntityForm from '../../components/EntityForm';
-import { EntitiesStackParamList } from '../../navigation/MainNavigator';
-import { createEntity } from '../../store/entitiesSlice';
+import EntryForm from '../../components/EntryForm';
+import { EntriesStackParamList } from '../../navigation/MainNavigator';
+import { createEntry } from '../../store/entriesSlice';
 import { RootState } from '../../store/store';
-import { EntityCreate } from '../../utils/types';
+import { EntryCreate } from '../../utils/types';
 
-type EntryCreateScreenNavigationProp = StackNavigationProp<EntitiesStackParamList, 'EntityCreate'>;
+type EntryCreateScreenNavigationProp = StackNavigationProp<EntriesStackParamList, 'EntryCreate'>;
 
 interface EntryCreateScreenProps {
   navigation: EntryCreateScreenNavigationProp;
@@ -28,14 +28,14 @@ const EntryCreateScreen: React.FC<EntryCreateScreenProps> = ({ navigation }) => 
     await dispatch(fetchCategories() as any);
   }
 
-  const handleSubmit = async (entryData: EntityCreate) => {
-    await dispatch(createEntity(entryData) as any);
+  const handleSubmit = async (entryData: EntryCreate) => {
+    await dispatch(createEntry(entryData) as any);
     navigation.goBack();
   };
   
   return (
     <View style={styles.container}>
-      <EntityForm categories={categories} onSubmit={handleSubmit} isLoading={isLoading} />
+      <EntryForm categories={categories} onSubmit={handleSubmit} isLoading={isLoading} />
     </View>
   );
 };

@@ -2,17 +2,17 @@
 import { Picker } from '@react-native-picker/picker';
 import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { Category, EntityCreate } from '../utils/types';
+import { Category, EntryCreate } from '../utils/types';
 import Button from './Button';
 
-interface EntityFormProps {
-  onSubmit: (entity: EntityCreate) => void;
-  initialValues?: Partial<EntityCreate>;
+interface EntryFormProps {
+  onSubmit: (entry: EntryCreate) => void;
+  initialValues?: Partial<EntryCreate>;
   categories: Category[];
   isLoading?: boolean;
 }
 
-const EntityForm: React.FC<EntityFormProps> = ({
+const EntryForm: React.FC<EntryFormProps> = ({
   onSubmit,
   initialValues = {},
   categories,
@@ -176,4 +176,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EntityForm;
+export default EntryForm;

@@ -12,21 +12,21 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
-import EntityItem from '../../components/EntryItem';
-import { EntitiesStackParamList } from '../../navigation/MainNavigator';
-import { deleteEntity, fetchEntities } from '../../store/entitiesSlice';
+import EntryItem from '../../components/EntryItem';
+import { EntriesStackParamList } from '../../navigation/MainNavigator';
+import { deleteEntry, fetchEntries } from '../../store/entriesSlice';
 import { RootState } from '../../store/store';
-import { Entity } from '../../utils/types';
+import { Entry } from '../../utils/types';
 
-type EntitiesScreenNavigationProp = StackNavigationProp<EntitiesStackParamList, 'Entities'>;
+type EntriesScreenNavigationProp = StackNavigationProp<EntriesStackParamList, 'Entries'>;
 
-interface EntitiesScreenProps {
-  navigation: EntitiesScreenNavigationProp;
+interface EntriesScreenProps {
+  navigation: EntriesScreenNavigationProp;
 }
 
-const EntitiesScreen: React.FC<EntitiesScreenProps> = ({ navigation }) => {
+const EntriesScreen: React.FC<EntriesScreenProps> = ({ navigation }) => {
   const dispatch = useDispatch();
-  const { entities, isLoading, error } = useSelector((state: RootState) => state.entries);
+  const { entries, isLoading, error } = useSelector((state: RootState) => state.entries);
   const [refreshing, setRefreshing] = useState(false);
   
   useEffect(() => {
@@ -37,7 +37,7 @@ const EntitiesScreen: React.FC<EntitiesScreenProps> = ({ navigation }) => {
       headerRight: () => (
         <TouchableOpacity 
           style={styles.headerButton} 
-          onPress={() => navigation.navigate('EntityCreate')}
+          onPress={() => navigation.navigate('EntryCreate')}
         >
           <Ionicons name="add" size={24} color="#fff" />
         </TouchableOpacity>
@@ -46,7 +46,7 @@ const EntitiesScreen: React.FC<EntitiesScreenProps> = ({ navigation }) => {
   }, [navigation]);
   
   const loadEntries = async () => {
-    await dispatch(fetchEntities() as any);
+    await dispatch(fetchEntries() as any);
   };
   
   const handleRefresh = async () => {
@@ -55,21 +55,21 @@ const EntitiesScreen: React.FC<EntitiesScreenProps> = ({ navigation }) => {
     setRefreshing(false);
   };
   
-  const handleEditEntry = (entity: Entity) => {
-    navigation.navigate('EntityEdit', { entityId: entity.id });
+  const handleEditEntry = (entry: Entry) => {
+    navigation.navigate('EntryEdit', { entryId: entry.id });
   };
   
-  const handleDeleteEntry = (entity: Entity) => {
+  const handleDeleteEntry = (entry: Entry) => {
     Alert.alert(
-      'Delete Entity',
-      `Are you sure you want to delete this entity?`,
+      'Delete Entry',
+      `Are you sure you want to delete this entry?`,
       [
         { text: 'Cancel', style: 'cancel' },
         { 
           text: 'Delete', 
           style: 'destructive',
           onPress: async () => {
-            await dispatch(deleteEntity(entity.id) as any);
+            await dispatch(deleteEntry(entry.id) as any);
           }
         },
       ]
@@ -94,24 +94,24 @@ const EntitiesScreen: React.FC<EntitiesScreenProps> = ({ navigation }) => {
   
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
-      {entities.length === 0 ? (
+      {entries.length === 0 ? (
         <View style={styles.emptyContainer}>
           <Ionicons name="document-text-outline" size={60} color="#bdc3c7" />
           <Text style={styles.emptyText}>No entries yet</Text>
           <TouchableOpacity 
             style={styles.addButton} 
-            onPress={() => navigation.navigate('EntityCreate')}
+            onPress={() => navigation.navigate('EntryCreate')}
           >
             <Text style={styles.addButtonText}>Add Entry</Text>
           </TouchableOpacity>
         </View>
       ) : (
         <FlatList
-          data={entities}
+          data={entries}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <EntityItem
-              entity={item}
+            <EntryItem
+              entry={item}
               onEdit={() => handleEditEntry(item)}
               onDelete={() => handleDeleteEntry(item)}
             />
@@ -171,4 +171,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EntitiesScreen;
+export default EntriesScreen;
