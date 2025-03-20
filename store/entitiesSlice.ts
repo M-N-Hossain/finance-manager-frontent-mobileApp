@@ -8,12 +8,12 @@ import {
 import { EntityCreate, EntityState } from '../utils/types';
 
 const initialState: EntityState = {
-  entries: [],
+  entities: [],
   isLoading: false,
   error: null,
 };
 
-export const fetchEntries = createAsyncThunk(
+export const fetchEntities = createAsyncThunk(
   'entries/fetchEntries',
   async (_, { rejectWithValue }) => {
     try {
@@ -64,15 +64,15 @@ const entriesSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchEntries.pending, (state) => {
+      .addCase(fetchEntities.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(fetchEntries.fulfilled, (state, action) => {
+      .addCase(fetchEntities.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.entries = action.payload;
+        state.entities = action.payload;
       })
-      .addCase(fetchEntries.rejected, (state, action) => {
+      .addCase(fetchEntities.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       })
@@ -82,7 +82,7 @@ const entriesSlice = createSlice({
       })
       .addCase(createEntity.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.entries.push(action.payload);
+        state.entities.push(action.payload);
       })
       .addCase(createEntity.rejected, (state, action) => {
         state.isLoading = false;
@@ -94,9 +94,9 @@ const entriesSlice = createSlice({
       })
       .addCase(updateEntity.fulfilled, (state, action) => {
         state.isLoading = false;
-        const index = state.entries.findIndex(entity => entity.id === action.payload.id);
+        const index = state.entities.findIndex(entity => entity.id === action.payload.id);
         if (index !== -1) {
-          state.entries[index] = action.payload;
+          state.entities[index] = action.payload;
         }
       })
       .addCase(updateEntity.rejected, (state, action) => {
@@ -109,7 +109,7 @@ const entriesSlice = createSlice({
       })
       .addCase(deleteEntity.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.entries = state.entries.filter(entity => entity.id !== action.payload);
+        state.entities = state.entities.filter(entity => entity.id !== action.payload);
       })
       .addCase(deleteEntity.rejected, (state, action) => {
         state.isLoading = false;

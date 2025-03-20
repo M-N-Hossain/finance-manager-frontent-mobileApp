@@ -12,21 +12,21 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
-import EntryItem from '../../components/EntryItem';
+import EntityItem from '../../components/EntryItem';
 import { EntitiesStackParamList } from '../../navigation/MainNavigator';
-import { deleteEntity, fetchEntries } from '../../store/entitiesSlice';
+import { deleteEntity, fetchEntities } from '../../store/entitiesSlice';
 import { RootState } from '../../store/store';
 import { Entity } from '../../utils/types';
 
-type EntriesScreenNavigationProp = StackNavigationProp<EntitiesStackParamList, 'Entities'>;
+type EntitiesScreenNavigationProp = StackNavigationProp<EntitiesStackParamList, 'Entities'>;
 
-interface EntriesScreenProps {
-  navigation: EntriesScreenNavigationProp;
+interface EntitiesScreenProps {
+  navigation: EntitiesScreenNavigationProp;
 }
 
-const EntriesScreen: React.FC<EntriesScreenProps> = ({ navigation }) => {
+const EntitiesScreen: React.FC<EntitiesScreenProps> = ({ navigation }) => {
   const dispatch = useDispatch();
-  const { entries, isLoading, error } = useSelector((state: RootState) => state.entries);
+  const { entities, isLoading, error } = useSelector((state: RootState) => state.entries);
   const [refreshing, setRefreshing] = useState(false);
   
   useEffect(() => {
@@ -46,7 +46,7 @@ const EntriesScreen: React.FC<EntriesScreenProps> = ({ navigation }) => {
   }, [navigation]);
   
   const loadEntries = async () => {
-    await dispatch(fetchEntries() as any);
+    await dispatch(fetchEntities() as any);
   };
   
   const handleRefresh = async () => {
@@ -94,7 +94,7 @@ const EntriesScreen: React.FC<EntriesScreenProps> = ({ navigation }) => {
   
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
-      {entries.length === 0 ? (
+      {entities.length === 0 ? (
         <View style={styles.emptyContainer}>
           <Ionicons name="document-text-outline" size={60} color="#bdc3c7" />
           <Text style={styles.emptyText}>No entries yet</Text>
@@ -107,11 +107,11 @@ const EntriesScreen: React.FC<EntriesScreenProps> = ({ navigation }) => {
         </View>
       ) : (
         <FlatList
-          data={entries}
+          data={entities}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <EntryItem
-              entry={item}
+            <EntityItem
+              entity={item}
               onEdit={() => handleEditEntry(item)}
               onDelete={() => handleDeleteEntry(item)}
             />
@@ -171,4 +171,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EntriesScreen;
+export default EntitiesScreen;

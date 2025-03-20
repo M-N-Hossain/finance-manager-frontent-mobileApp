@@ -2,33 +2,33 @@
 import { Picker } from '@react-native-picker/picker';
 import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { Category, EntryCreate } from '../utils/types';
+import { Category, EntityCreate } from '../utils/types';
 import Button from './Button';
 
-interface EntryFormProps {
-  onSubmit: (entry: EntryCreate) => void;
-  initialValues?: Partial<EntryCreate>;
+interface EntityFormProps {
+  onSubmit: (entity: EntityCreate) => void;
+  initialValues?: Partial<EntityCreate>;
   categories: Category[];
   isLoading?: boolean;
 }
 
-const EntryForm: React.FC<EntryFormProps> = ({
+const EntityForm: React.FC<EntityFormProps> = ({
   onSubmit,
   initialValues = {},
   categories,
   isLoading = false,
 }) => {
   const [amount, setAmount] = useState(initialValues.amount?.toString() || '');
-  const [description, setDescription] = useState(initialValues.description || '');
-  const [categoryId, setCategoryId] = useState(initialValues.categoryId || (categories[0]?.id || ''));
-  const [date, setDate] = useState(initialValues.date ? new Date(initialValues.date) : new Date());
+  const [title, setTitle] = useState(initialValues.title || '');
+  const [category, setCategory] = useState(initialValues.category || '');
+  // const [date, setDate] = useState(initialValues.date ? new Date(initialValues.date) : new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
-    // If categories load after component mounts, set default categoryId
-    if (categories.length > 0 && !categoryId) {
-      setCategoryId(categories[0].id);
+    // If categories load after component mounts, set default category
+    if (categories.length > 0 && !category) {
+      setCategory(categories[0].title);
     }
   }, [categories]);
 
@@ -41,12 +41,12 @@ const EntryForm: React.FC<EntryFormProps> = ({
       newErrors.amount = 'Please enter a valid amount';
     }
     
-    if (!description.trim()) {
-      newErrors.description = 'Description is required';
+    if (!title.trim()) {
+      newErrors.title = 'title is required';
     }
     
-    if (!categoryId) {
-      newErrors.categoryId = 'Please select a category';
+    if (!category) {
+      newErrors.category = 'Please select a category';
     }
     
     setErrors(newErrors);
@@ -57,20 +57,21 @@ const EntryForm: React.FC<EntryFormProps> = ({
     if (validateForm()) {
       onSubmit({
         amount: parseFloat(amount),
-        description,
-        categoryId,
-        date: date.toISOString(),
+        title,
+        category,
+        // date: date.toISOString(),
       });
     }
   };
 
-  const handleDateChange = (event: any, selectedDate?: Date) => {
-    setShowDatePicker(false);
-    if (selectedDate) {
-      setDate(selectedDate);
-    }
-  };
+  // const handleDateChange = (event: any, selectedDate?: Date) => {
+  //   setShowDatePicker(false);
+  //   if (selectedDate) {
+  //     setDate(selectedDate);
+  //   }
+  // };
 
+  console.log(category)
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.label}>Amount</Text>
@@ -83,36 +84,36 @@ const EntryForm: React.FC<EntryFormProps> = ({
       />
       {errors.amount ? <Text style={styles.errorText}>{errors.amount}</Text> : null}
       
-      <Text style={styles.label}>Description</Text>
+      <Text style={styles.label}>title</Text>
       <TextInput
         style={[styles.input, styles.textArea]}
-        value={description}
-        onChangeText={setDescription}
-        placeholder="Enter description"
+        value={title}
+        onChangeText={setTitle}
+        placeholder="Enter title"
         multiline
       />
-      {errors.description ? <Text style={styles.errorText}>{errors.description}</Text> : null}
+      {errors.title ? <Text style={styles.errorText}>{errors.title}</Text> : null}
       
       <Text style={styles.label}>Category</Text>
       <View style={styles.pickerContainer}>
         <Picker
-          selectedValue={categoryId}
-          onValueChange={(itemValue) => setCategoryId(itemValue)}
+          selectedValue={category}
+          onValueChange={(itemValue) => setCategory(itemValue)}
           style={styles.picker}
         >
           {categories.map((category) => (
-            <Picker.Item key={category.id} label={category.name} value={category.id} />
+            <Picker.Item key={category.id} label={category.title} value={category.title} />
           ))}
         </Picker>
       </View>
-      {errors.categoryId ? <Text style={styles.errorText}>{errors.categoryId}</Text> : null}
+      {errors.category ? <Text style={styles.errorText}>{errors.category}</Text> : null}
       
-      <Text style={styles.label}>Date</Text>
-      <Button 
+      {/* <Text style={styles.label}>Date</Text> */}
+      {/* <Button 
         title={date.toLocaleDateString()} 
         onPress={() => setShowDatePicker(true)}
         type="secondary"
-      />
+      /> */}
       
       {/* {showDatePicker && (
         <DateTimePicker
@@ -153,7 +154,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   textArea: {
-    height: 100,
+    height: 50,
     textAlignVertical: 'top',
     paddingTop: 12,
   },
@@ -164,7 +165,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   picker: {
-    height: 48,
+    height: 50,
   },
   errorText: {
     color: '#e74c3c',
@@ -175,4 +176,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EntryForm;
+export default EntityForm;

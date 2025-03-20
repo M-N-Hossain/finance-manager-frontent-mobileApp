@@ -3,7 +3,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import EntryForm from '../../components/EntryForm';
+import EntryForm from '../../components/EntityForm';
 import { EntitiesStackParamList } from '../../navigation/MainNavigator';
 import { fetchEntries, updateEntity } from '../../store/entitiesSlice';
 import { RootState } from '../../store/store';

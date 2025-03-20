@@ -11,7 +11,6 @@ interface CategoryItemProps {
 
 const CategoryItem: React.FC<CategoryItemProps> = ({ category, onEdit, onDelete }) => {
 
-  console.log(category)
   return (
     <View style={styles.container}>
       <View style={styles.infoContainer}>

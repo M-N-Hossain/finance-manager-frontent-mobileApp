@@ -44,20 +44,20 @@ export interface CategoryState {
 export interface Entity {
   id: string;
   amount: number;
-  description: string;
+  title: string;
   date: string;
-  categoryId: string;
+  category: Category;
 }
 
 export interface EntityCreate {
   amount: number;
-  description: string;
-  date: string;
-  categoryId: string;
+  title: string;
+  // date: string;
+  category: string;
 }
 
 export interface EntityState {
-  entries: Entity[];
+  entities: Entity[];
   isLoading: boolean;
   error: string | null;
 }

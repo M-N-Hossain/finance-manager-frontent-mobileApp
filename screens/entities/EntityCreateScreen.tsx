@@ -1,14 +1,14 @@
 import { StackNavigationProp } from '@react-navigation/stack';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import EntryForm from '../../components/EntryForm';
-import { EntriesStackParamList } from '../../navigation/MainNavigator';
-import { createEntry } from '../../store/entitiesSlice';
+import EntityForm from '../../components/EntityForm';
+import { EntitiesStackParamList } from '../../navigation/MainNavigator';
+import { createEntity } from '../../store/entitiesSlice';
 import { RootState } from '../../store/store';
-import { EntryCreate } from '../../utils/types';
+import { EntityCreate } from '../../utils/types';
 
-type EntryCreateScreenNavigationProp = StackNavigationProp<EntriesStackParamList, 'EntryCreate'>;
+type EntryCreateScreenNavigationProp = StackNavigationProp<EntitiesStackParamList, 'EntityCreate'>;
 
 interface EntryCreateScreenProps {
   navigation: EntryCreateScreenNavigationProp;
@@ -17,15 +17,25 @@ interface EntryCreateScreenProps {
 const EntryCreateScreen: React.FC<EntryCreateScreenProps> = ({ navigation }) => {
   const dispatch = useDispatch();
   const { isLoading } = useSelector((state: RootState) => state.entries);
-  
-  const handleSubmit = async (entryData: EntryCreate) => {
-    await dispatch(createEntry(entryData) as any);
+  const { categories } = useSelector((state: RootState) => state.categories);
+
+
+  useEffect( ()=> {
+     fetchCategories()
+  }, [])
+
+  const fetchCategories = async () => {
+    await dispatch(fetchCategories() as any);
+  }
+
+  const handleSubmit = async (entryData: EntityCreate) => {
+    await dispatch(createEntity(entryData) as any);
     navigation.goBack();
   };
   
   return (
     <View style={styles.container}>
-      <EntryForm categories={[]} onSubmit={handleSubmit} isLoading={isLoading} />
+      <EntityForm categories={categories} onSubmit={handleSubmit} isLoading={isLoading} />
     </View>
   );
 };
