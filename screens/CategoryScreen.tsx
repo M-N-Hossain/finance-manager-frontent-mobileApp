@@ -1,8 +1,8 @@
 import React from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
-import { CategopryEntity } from '../categories/CategoriesEntity';
+import { CategoriesAPI } from '../categories/CategoriesAPI';
+import { CategopryEntity } from '../categories/CategoryEntity';
 import CategoryList from '../categories/CategoryList';
-import { CategoriesAPI } from '../categories/CatgoriesAPI';
 
 export default function CategoryScreen() {
 
